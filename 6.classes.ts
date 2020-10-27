@@ -181,3 +181,66 @@ abstract class Animal {
     console.log('roaming the earth...')
   }
 }
+
+abstract class Department {
+  constructor(public name: string) {}
+
+  printName(): void {
+    console.log(`Department name: ${this.name}`)
+  }
+
+  abstract printMeeting(): void // must be implemented in derived classes
+}
+
+class AccountingDepartment extends Department {
+  constructor() {
+    super('Accounting and Auditing')
+  }
+
+  printMeeting(): void {
+    console.log('The Accounting Department meets each Monday at 10am.')
+  }
+
+  generateReports(): void {
+    console.log('Generating accounting reports')
+  }
+}
+
+const department: Department = new AccountingDepartment()
+department.printName()
+department.printMeeting()
+// department.generateReports() // error!
+
+// Constructor functions
+class Greeter2 {
+  static standardGreeting = "Hello, there";
+  greeting: string;
+  greet() {
+      if (this.greeting) {
+          return "Hello, " + this.greeting;
+      }
+      else {
+          return Greeter2.standardGreeting;
+      }
+  }
+}
+
+let greeter1: Greeter2;
+greeter1 = new Greeter2();
+console.log(greeter1.greet());
+
+let greeterMaker: typeof Greeter2 = Greeter2;
+greeterMaker.standardGreeting = "Hey there!";
+
+let greeter2: Greeter2 = new greeterMaker();
+console.log(greeter2.greet());
+
+// Using a class as an interface
+class Point {
+  x: number;
+  y: number;
+}
+interface Point3d extends Point {
+  z: number;
+}
+let point3d: Point3d = { x: 1, y: 2, z: 3 };
