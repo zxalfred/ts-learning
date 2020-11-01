@@ -217,3 +217,41 @@ type Partial1<T> = {
 type Readonly1<T> ={
   readonly [P in keyof T]?: T[P]
 }
+
+// Conditional Types
+// T extends U ? X : Y
+declare function f<T extends boolean>(x: T): T extends true ? string: number
+let x: string | number = f(Math.random() < 0.5)
+
+type TypeName<T> = T extends string
+  ? 'string'
+  : T extends number
+  ? 'number'
+  : T extends boolean
+  ? 'boolean'
+  : T extends undefined
+  ? 'undefined'
+  : T extends Function
+  ? 'function'
+  : 'object'
+
+interface Foo {
+  propA: boolean
+  propB: boolean
+}
+
+declare function f<T>(x: T): T extends Foo ? string : number
+
+function foo<U>(x: U) {
+  let a = f(x)
+
+  let b: string | number = a
+}
+
+type BoxedValue<T> = { value: T }
+type BoxedArray<T> = { array: T[] }
+type Boxed<T> = T extends any[] ? BoxedArray<T[number]> : BoxedValue<T>
+
+type T1 = Boxed<string>
+type T2= Boxed<number[]>
+type T3= Boxed<string | number[]>
