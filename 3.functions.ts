@@ -1,3 +1,34 @@
+// typing the function
+function add(x: number, y: number): number {
+  return x + y;
+}
+let myAdd = function(x: number, y: number): number {
+  return x + y
+}
+
+// writing the function type
+let myAdd2: (x: number, y: number) => number = function(x: number, y: number) :number {
+  return x + y
+}
+
+// Optional and Default Parameters
+function buildName(firstName: string, lastName?: string) {
+  if (lastName) return `${firstName} ${lastName}`
+  return firstName
+}
+
+function buildName2(firstName: string, lastName: string = 'Smith') {
+  if (lastName) return `${firstName} ${lastName}`
+  return firstName
+}
+
+// Rest Parameters
+function buildName3(firstName: string, ...restOfName: string[]) {
+  return `${firstName} ${restOfName.join(' ')}`
+}
+
+let employeeName = buildName3('Joseph', 'Samuel', 'Lucas', 'Mackinzie')
+
 // this and arrow functions
 let deck0 = {
   suits: ['hearts', 'spades', 'clubs', 'diamonds'],
