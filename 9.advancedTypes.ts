@@ -111,3 +111,109 @@ if (padder instanceof SpaceRepeatingPadder) {
 if (padder instanceof StringPadder) {
   padder
 }
+
+// Nullable types
+// If use --strictNullChecks flag,  null or undefined is not assignable to any types
+
+// Type guards and type assertions
+interface UserAccount {
+  id: number
+  email?: string
+}
+declare function getUser(val: string): UserAccount | undefined
+const user = getUser('admin')
+user.id
+if (user) {
+  user.email.length
+}
+user!.email!.length
+user?.email?.length
+
+// Type alias
+type Second = number
+let timeInSecond: number = 10
+let time: Second = 10
+
+type Container<T> = { value: T }
+
+type Tree<T> = {
+  value: T
+  left?: Tree<T>
+  right?: Tree<T>
+}
+
+interface Tree2<T> {
+  value: T
+  left?: Tree2<T>
+  right?: Tree2<T>
+}
+
+type LinkedList<Type> = Type & { next: LinkedList<Type> }
+
+interface Person {
+  name: string
+}
+
+declare function getDriversLicenseQueue(): LinkedList<Person>
+let people = getDriversLicenseQueue()
+people.name
+people.next.name
+people.next.next.name
+people.next.next.next.name
+
+const a: Window = window
+
+// Polymorphic this types
+class BasicCalculator {
+  constructor(protected value: number = 0) {}
+  currentValue(): number {
+    return this.value
+  }
+  add(operand: number): this {
+    this.value += operand
+    return this
+  }
+  multiply(operand: number): this {
+    this.value *= operand
+    return this
+  }
+}
+let v = new BasicCalculator(2).multiply(5).add(1).currentValue()
+
+class ScientificCalculator extends BasicCalculator {
+  constructor(value = 0) {
+    super(value)
+  }
+  sin(): this {
+    this.value = Math.sin(this.value)
+    return this
+  }
+}
+let v2 = new ScientificCalculator(2).multiply(5).sin().add(1).currentValue()
+
+// Index types
+function pluck<T, K extends keyof T>(o: T, propertyNames: K[]): T[K][] {
+  return propertyNames.map(n => o[n])
+}
+
+interface Car {
+  manufacturer: string
+  model: string
+  year: number
+}
+let taxi: Car = {
+  manufacturer: 'Toyota',
+  model: 'Carmry',
+  year: 2014
+}
+
+let makeAndModel: string[] = pluck(taxi, ['manufacturer', 'model'])
+let modelYear = pluck(taxi, ['model', 'year'])
+
+// Mapped types
+type Partial1<T> = {
+  [P in keyof T]?: T[P]
+}
+type Readonly1<T> ={
+  readonly [P in keyof T]?: T[P]
+}
