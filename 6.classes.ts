@@ -174,7 +174,7 @@ class Grid {
 }
 
 // Abstract Classes
-abstract class Animal {
+abstract class Animal5 {
   abstract makeSound(): void
 
   move(): void {
