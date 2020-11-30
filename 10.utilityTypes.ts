@@ -92,3 +92,41 @@ type MyConstructorParameters<T extends new (...args: any) => any> = T extends ne
 // ReturnType<Type>
 // Constructs a type consisting of the return type of function Type.
 type MyReturnType<T extends (...args: any) => any> = T extends (...args: any) => infer R ? R : any
+
+// ThisParameterType<Type>
+function toHex(this: Number) {
+  return this.toString(16)
+}
+
+function numberToString(n: ThisParameterType<typeof toHex>) {
+  return toHex.apply(n)
+}
+
+// OmitThisParameter<Type>
+type MyOmitThisParameter<T> = unknown extends ThisParameterType<T> ? T : T extends (...args: infer A) => infer R ? (...args: A) => R : T
+
+function toHex2(this: Number) {
+  return this.toString(16)
+}
+
+const fiveToHex: OmitThisParameter<typeof toHex> = toHex.bind(5)
+
+console.log(fiveToHex())
+
+// GetOnlyFnProps<Type>
+type GetOnlyFnProps<T extends object> = {
+  [
+    K in {
+      [K in keyof T]: T[K] extends Function ? K : never
+    }[keyof T]
+  ]: T[K]
+}
+
+type Obj = {
+  a: string,
+  b: number
+  c: () => number
+  d: () => string
+}
+
+type Test = GetOnlyFnProps<Obj>
