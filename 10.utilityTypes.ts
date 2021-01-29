@@ -57,7 +57,7 @@ interface Todo5 {
   completed: boolean;
 }
 
-type TodoPreview2 = Omit<Todo5, "description">;
+type TodoPreview2 = MyOmit<Todo5, "description">;
 
 const todo5: TodoPreview = {
   title: "Clean room",
